@@ -57,7 +57,7 @@ jobs:
 
     env:
       Solution_Name: Asp.NetCore.Empty.sln                        # Replace with your solution name, i.e. MyWpfApp.sln.
-      Wap_Project_Directory: YourWapProjectDirectory
+      Wap_Project_Directory: D:\a\Asp.NetCore.Empty\Asp.NetCore.Empty\YourWapProjectDirectory
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -87,9 +87,8 @@ jobs:
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     - name: Decode the pfx
       run: |
-        $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
-        $certificatePath = Join-Path -Path $env:Wap_Project_Directory -ChildPath GitHubActionsWorkflow.pfx
-        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
+        $certificatePath = "$env:Wap_Project_Directory\GitHubActionsWorkflow.pfx"
+        [IO.File]::WriteAllBytes($certificatePath, [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}"))
 
     # Create the app package by building and packaging the Windows Application Packaging project
     - name: Create the app package
