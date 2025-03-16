@@ -84,16 +84,6 @@ jobs:
       env:
         Configuration: ${{ matrix.configuration }}
 
-    # Decode the base 64 encoded pfx and save the Signing_Certificate
-    - name: Decode the pfx
-  run: |
-    $pfxDirectory = "$env:Wap_Project_Directory"
-    if (-Not (Test-Path -Path $pfxDirectory)) {
-        New-Item -ItemType Directory -Path $pfxDirectory -Force
-    }
-    $certificatePath = "$pfxDirectory\GitHubActionsWorkflow.pfx"
-    [IO.File]::WriteAllBytes($certificatePath, [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}"))
-  shell: pwsh
 
     # Create the app package by building and packaging the Windows Application Packaging project
     - name: Create the app package
